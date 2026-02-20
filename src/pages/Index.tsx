@@ -244,13 +244,6 @@ const WORKS = [
     price: "от 115 000 ₽",
     imgs: [
       "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d292966f-99be-4993-a94d-e8030d910252.jpeg",
-      "https://cdn.poehali.dev/files/8a336589-7b1c-44ed-91c5-b1e57ad62b1a.jpg",
-      "https://cdn.poehali.dev/files/dfa5ae0b-0f58-4b2e-88b1-f912072fd0e3.jpg",
-      "https://cdn.poehali.dev/files/fc8c12b5-1d34-4637-bce3-2227962ad741.jpg",
-      "https://cdn.poehali.dev/files/012d0e28-0e77-470d-ae51-46d9dbb4cfe8.jpg",
-      "https://cdn.poehali.dev/files/cd60448b-9c4e-425c-b894-37365da0c93d.jpg",
-      "https://cdn.poehali.dev/files/940e0d50-2ae7-4e64-b77d-6faabc73a4dc.jpg",
-      "https://cdn.poehali.dev/files/1d30612a-8b9b-47c5-9b3d-bdbd83262b08.jpg",
     ],
   },
   {
@@ -570,11 +563,18 @@ export default function Index() {
 
       {/* HERO */}
       <section className="relative h-screen min-h-[640px] pt-[88px] flex items-end overflow-hidden">
-        <img
-          src={IMG_HERO}
-          alt="hero"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {/* Collage background */}
+        <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-0.5">
+          <div className="col-span-2 row-span-2 overflow-hidden">
+            <img src="https://cdn.poehali.dev/files/cd60448b-9c4e-425c-b894-37365da0c93d.jpg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <div className="overflow-hidden">
+            <img src="https://cdn.poehali.dev/files/8a336589-7b1c-44ed-91c5-b1e57ad62b1a.jpg" alt="" className="w-full h-full object-cover" />
+          </div>
+          <div className="overflow-hidden">
+            <img src="https://cdn.poehali.dev/files/fc8c12b5-1d34-4637-bce3-2227962ad741.jpg" alt="" className="w-full h-full object-cover" />
+          </div>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-5 pb-16 w-full">
           <div className="max-w-2xl">
