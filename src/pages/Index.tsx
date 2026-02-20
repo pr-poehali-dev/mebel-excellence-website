@@ -22,8 +22,11 @@ const WORKS = [
   { id: 4,  cat: "raspashnye",title: "Шкаф в спальню",          mat: "ЛДСП + фасад МДФ",     size: "1.8 × 2.4 м",  price: "от 48 000 ₽",  img: IMG_KITCHEN },
   { id: 5,  cat: "garderobnie", title: "Walk-in гардеробная",    mat: "ЛДСП кашемир + хром",  size: "Индивидуально", price: "от 85 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/9bedebaf-3ceb-4be1-8947-8e61dbf61c28.jpeg" },
   { id: 6,  cat: "garderobnie", title: "Гардеробная с купе",    mat: "ЛДСП кашемир + чёрный профиль", size: "3.0 × 2.4 м", price: "от 110 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/ff200e90-f7ad-4c92-8a41-96782b333836.jpeg" },
-  { id: 7,  cat: "rabochie",  title: "Рабочий кабинет",         mat: "МДФ + шпон ореха",     size: "3.0 × 2.0 м",  price: "от 95 000 ₽",  img: IMG_TV },
-  { id: 8,  cat: "rabochie",  title: "Домашний офис",           mat: "ЛДСП + металл",        size: "2.4 × 1.6 м",  price: "от 65 000 ₽",  img: IMG_KITCHEN },
+  { id: 7,  cat: "rabochie",  title: "Рабочая зона с навесным шкафом", mat: "МДФ серый + металл",      size: "Индивидуально", price: "от 55 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/be2276ed-2e08-428a-a90c-4cfd8c2b83e6.jpg" },
+  { id: 8,  cat: "rabochie",  title: "Кабинет с системой хранения",   mat: "МДФ синий + дуб натуральный", size: "Индивидуально", price: "от 120 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/29dd10ca-0cf1-46ca-82df-3bbc8dc9a517.jpg" },
+  { id: 11, cat: "rabochie",  title: "Детская рабочая зона",          mat: "МДФ белый + фрезеровка",     size: "Индивидуально", price: "от 85 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/022fd098-e372-40d8-a605-90fd838b3c07.jpg" },
+  { id: 12, cat: "rabochie",  title: "Рабочая зона со шкафом",        mat: "ЛДСП серый + дуб",           size: "Индивидуально", price: "от 75 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/14437af4-a5c4-4f86-9498-3ad78892749e.jpg" },
+  { id: 13, cat: "rabochie",  title: "Домашний кабинет у окна",       mat: "ЛДСП белый + дуб натуральный",size: "Индивидуально", price: "от 95 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/66d56d1b-1d12-4647-8e46-fefe86d3fd09.jpg" },
   { id: 9,  cat: "prikhojie", title: "Прихожая с нишами",       mat: "МДФ эмаль + зеркало",  size: "2.2 × 2.4 м",  price: "от 60 000 ₽",  img: IMG_CLOSET },
   { id: 10, cat: "prikhojie", title: "Прихожая «Модерн»",       mat: "ЛДСП + алюминий",      size: "1.8 × 2.3 м",  price: "от 45 000 ₽",  img: IMG_TV },
 ];
