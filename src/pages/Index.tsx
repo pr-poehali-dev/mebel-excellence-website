@@ -1,584 +1,588 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMAGE = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/87d90682-4025-4b15-bf74-1259adb134da.jpg";
-const KITCHEN_IMAGE = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/43fb1263-5f9b-4507-b488-1213de518ecd.jpg";
-const WORKSHOP_IMAGE = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/c9616f8c-0715-49e0-97f8-0916df633b5a.jpg";
+const IMG_HERO     = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/4fbdc734-cd55-4959-bc96-decdf5ba6d28.jpg";
+const IMG_KITCHEN  = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/14ea493e-e49f-404c-80d3-0c7a6a60bea8.jpg";
+const IMG_TV       = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/b454306c-e04c-4c87-a02a-28b433697ef9.jpg";
+const IMG_CLOSET   = "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/files/cc74e5d0-cf45-4d10-b241-fb8dcfd8e1e6.jpg";
 
-const navLinks = [
-  { href: "#works", label: "Наши работы" },
-  { href: "#process", label: "Процесс заказа" },
+const NAV = [
+  { href: "#works",     label: "Работы" },
+  { href: "#process",   label: "Процесс" },
   { href: "#materials", label: "Материалы" },
-  { href: "#reviews", label: "Отзывы" },
-  { href: "#promo", label: "Акции" },
-  { href: "#contacts", label: "Контакты" },
+  { href: "#reviews",   label: "Отзывы" },
+  { href: "#promo",     label: "Акции" },
+  { href: "#contacts",  label: "Контакты" },
 ];
 
-const works = [
-  { id: 1, category: "kitchen", title: "Кухня «Нордик»", desc: "Массив дуба, матовые фасады", size: "3.4 × 2.8 м", price: "от 180 000 ₽", img: KITCHEN_IMAGE },
-  { id: 2, category: "wardrobe", title: "Гардероб «Модерн»", desc: "МДФ, эмаль, зеркальные вставки", size: "2.4 × 2.2 м", price: "от 95 000 ₽", img: HERO_IMAGE },
-  { id: 3, category: "living", title: "Гостиная «Классика»", desc: "Шпон ореха, натуральная кожа", size: "Индивидуально", price: "от 220 000 ₽", img: WORKSHOP_IMAGE },
-  { id: 4, category: "bedroom", title: "Спальня «Прованс»", desc: "МДФ, акриловые фасады, белый цвет", size: "Индивидуально", price: "от 140 000 ₽", img: KITCHEN_IMAGE },
-  { id: 5, category: "kitchen", title: "Кухня «Лофт»", desc: "Металл и дерево, открытые полки", size: "2.8 × 1.9 м", price: "от 160 000 ₽", img: HERO_IMAGE },
-  { id: 6, category: "wardrobe", title: "Шкаф-купе «Слим»", desc: "Зеркальные раздвижные двери", size: "2.0 × 2.4 м", price: "от 65 000 ₽", img: WORKSHOP_IMAGE },
+const WORKS = [
+  { id: 1, cat: "wardrobe", title: "Гардеробная система",  mat: "ЛДСП + алюминий",     size: "3.6 × 2.4 м",   price: "от 85 000 ₽",  img: IMG_HERO },
+  { id: 2, cat: "kitchen",  title: "Кухня без ручек",      mat: "МДФ эмаль + ламинат", size: "3.2 × 1.8 м",   price: "от 165 000 ₽", img: IMG_KITCHEN },
+  { id: 3, cat: "living",   title: "ТВ-стенка с нишами",   mat: "МДФ + шпон ореха",    size: "3.0 × 2.2 м",   price: "от 120 000 ₽", img: IMG_TV },
+  { id: 4, cat: "wardrobe", title: "Walk-in гардеробная",  mat: "ЛДСП белый матовый",  size: "Индивидуально",  price: "от 110 000 ₽", img: IMG_CLOSET },
+  { id: 5, cat: "kitchen",  title: "Угловая кухня «Слим»", mat: "Акрил + МДФ",         size: "2.8 + 1.6 м",   price: "от 195 000 ₽", img: IMG_KITCHEN },
+  { id: 6, cat: "living",   title: "Шкаф-купе «Линия»",    mat: "Стекло + алюминий",   size: "2.4 × 2.3 м",   price: "от 70 000 ₽",  img: IMG_HERO },
 ];
 
-const filterLabels: Record<string, string> = {
-  all: "Все работы",
-  kitchen: "Кухни",
-  wardrobe: "Шкафы",
-  living: "Гостиные",
-  bedroom: "Спальни",
+const FILTERS: Record<string, string> = {
+  all: "Все", wardrobe: "Шкафы и гардеробные", kitchen: "Кухни", living: "Гостиные",
 };
 
-const steps = [
-  { icon: "Ruler", num: "01", title: "Замер помещения", desc: "Наш специалист выезжает к вам бесплатно и снимает точные мерки" },
-  { icon: "PenTool", num: "02", title: "Разработка проекта", desc: "3D-визуализация будущей мебели с учётом всех ваших пожеланий" },
-  { icon: "CheckCircle", num: "03", title: "Согласование", desc: "Утверждаем материалы, цвет и финальную стоимость — никаких скрытых платежей" },
-  { icon: "Hammer", num: "04", title: "Производство", desc: "Изготовление на собственном оборудовании, контроль качества на каждом этапе" },
-  { icon: "Truck", num: "05", title: "Доставка и монтаж", desc: "Привозим и устанавливаем мебель под ключ, убираем за собой" },
+const STEPS = [
+  { icon: "Ruler",        title: "Замер",        desc: "Бесплатно выезжаем и снимаем точные размеры" },
+  { icon: "Monitor",      title: "3D-проект",     desc: "Визуализация за 2–3 дня с несколькими вариантами" },
+  { icon: "FileCheck",    title: "Договор",       desc: "Фиксируем цену, сроки и все детали" },
+  { icon: "Factory",      title: "Производство",  desc: "Изготовление на ЧПУ-оборудовании, без посредников" },
+  { icon: "PackageCheck", title: "Монтаж",        desc: "Доставка и установка под ключ" },
 ];
 
-const materials = [
-  { icon: "Trees", title: "Массив дерева", desc: "Дуб, ясень, орех — натуральные породы высшего сорта с естественной текстурой" },
-  { icon: "Layers", title: "МДФ и ЛДСП", desc: "Европейские производители Egger, Pfleiderer — экологически чистые плиты без формальдегида" },
-  { icon: "Sparkles", title: "Фасады", desc: "Эмаль, шпон, акрил, матовое стекло — более 200 цветов и текстур в наличии" },
-  { icon: "Settings", title: "Фурнитура", desc: "Blum, Hettich, Grass — немецкая и австрийская фурнитура с гарантией 10 лет" },
+const MATERIALS = [
+  { icon: "Layers",    title: "ЛДСП Egger",          desc: "Немецкие плиты класса E1 — без вредных выбросов, 200+ декоров" },
+  { icon: "Box",       title: "МДФ и эмаль",          desc: "Гладкие фасады без ручек, акрил и матовая эмаль до 3000+ цветов RAL" },
+  { icon: "Maximize",  title: "Алюминиевый профиль",  desc: "Рамочные системы и раздвижные двери — строгий минимализм" },
+  { icon: "Settings2", title: "Фурнитура Blum",       desc: "Австрийские петли и направляющие с гарантией 50 000 циклов" },
 ];
 
-const reviews = [
-  { name: "Анна Светлова", city: "Москва", text: "Заказывала кухню по индивидуальному проекту. Всё сделали точно в срок, качество превзошло ожидания. Уже 2 года — ни единого нарекания!", rating: 5 },
-  { name: "Игорь Макаров", city: "Санкт-Петербург", text: "Гардеробная комната с нуля. Ребята помогли с планировкой, предложили решения которые я сам не додумался. Очень доволен!", rating: 5 },
-  { name: "Марина Ковалёва", city: "Казань", text: "Шкаф-купе с зеркальными фасадами. Монтаж занял один день, всё аккуратно и профессионально. Рекомендую!", rating: 5 },
-  { name: "Дмитрий Орлов", city: "Екатеринбург", text: "Гостиная из массива ореха — это произведение искусства. Соседи завидуют, жена в восторге. Мебелекс — лучшие!", rating: 5 },
+const REVIEWS = [
+  { name: "Анна К.",     city: "Москва",      text: "Гардеробная во всю стену — точно по проекту, монтаж за один день. Сплошной восторг.", stars: 5 },
+  { name: "Иван М.",     city: "Красногорск", text: "Кухня без ручек — то, что искал. Всё аккуратно, никаких зазоров. Рекомендую!", stars: 5 },
+  { name: "Светлана Р.", city: "Мытищи",      text: "ТВ-стенка с подсветкой — получилось лучше, чем на рендере. Спасибо мастерам!", stars: 5 },
+  { name: "Олег Д.",     city: "Химки",       text: "Шкаф-купе в спальню по нестандартным размерам. Сделали быстро и по хорошей цене.", stars: 5 },
 ];
 
-const faqs = [
-  { q: "Сколько времени занимает изготовление мебели?", a: "В зависимости от сложности проекта — от 2 до 6 недель. Кухни и спальни в среднем 3-4 недели." },
-  { q: "Выезжаете в другие города?", a: "Да, работаем по всей России. Доставка и монтаж рассчитывается индивидуально." },
-  { q: "Есть ли гарантия на мебель?", a: "Даём гарантию 3 года на все изделия и 10 лет на используемую фурнитуру Blum/Hettich." },
-  { q: "Можно ли заказать мебель нестандартных размеров?", a: "Абсолютно! Мы специализируемся именно на индивидуальных размерах. Любые нестандартные проёмы и конфигурации." },
-  { q: "Как происходит оплата?", a: "50% предоплата при подписании договора, 50% после приёмки работ. Принимаем карты и безналичный расчёт." },
+const FAQS = [
+  { q: "Сколько стоит выезд замерщика?",        a: "Бесплатно — по Москве и МО." },
+  { q: "Какой срок изготовления?",               a: "От 2 недель. Кухня в среднем — 3–4 недели, шкафы — 2 недели." },
+  { q: "Есть гарантия?",                         a: "3 года на изделия, 10 лет на фурнитуру Blum." },
+  { q: "Работаете с нестандартными размерами?",  a: "Это наша специализация — любые проёмы и конфигурации." },
+  { q: "Как оплатить?",                          a: "50% при подписании договора, 50% после монтажа. Карты и безнал." },
 ];
 
-const promos = [
-  { badge: "Акция", title: "Кухня в подарок", desc: "При заказе гостиной от 200 000 ₽ — кухонный гарнитур со скидкой 30%", until: "до 1 апреля 2026" },
-  { badge: "Новинка", title: "Бесплатный дизайн-проект", desc: "При заказе любой мебели — 3D-визуализация в подарок", until: "Постоянно" },
-  { badge: "Скидка", title: "−15% для новых клиентов", desc: "Первый заказ — скидка 15% на весь комплект мебели", until: "Ограниченное предложение" },
+const PROMOS = [
+  { tag: "Акция",  title: "−15% на первый заказ",     desc: "Для новых клиентов — скидка 15% на любую мебель",    till: "до 31 марта" },
+  { tag: "Бонус",  title: "3D-проект бесплатно",       desc: "При заказе любого изделия — визуализация в подарок", till: "постоянно" },
+  { tag: "Пакет",  title: "Кухня + гардеробная −20%", desc: "Закажите два изделия сразу — скидка 20% на оба",     till: "ограничено" },
 ];
 
-function useInView(threshold = 0.15) {
+function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
+  const [vis, setVis] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.1 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
   }, []);
-  return { ref, inView };
+  return { ref, vis };
 }
 
-function Section({ id, children, className = "" }: { id?: string; children: React.ReactNode; className?: string }) {
-  const { ref, inView } = useInView();
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const { ref, vis } = useReveal();
   return (
-    <section id={id} ref={ref} className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}>
+    <div
+      ref={ref}
+      style={{ animationDelay: `${delay}ms`, animationFillMode: "both" }}
+      className={`${vis ? "reveal" : "opacity-0"} ${className}`}
+    >
       {children}
-    </section>
+    </div>
   );
 }
 
 export default function Index() {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [filter, setFilter]       = useState("all");
+  const [faqOpen, setFaqOpen]     = useState<number | null>(null);
+  const [menuOpen, setMenuOpen]   = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [calcData, setCalcData] = useState({ type: "kitchen", width: 3, height: 2.4, material: "ldsp" });
+  const [form, setForm]           = useState({ name: "", phone: "", comment: "" });
+  const [calc, setCalc]           = useState({ type: "kitchen", material: "ldsp", w: 3, h: 2.4 });
 
-  const filteredWorks = activeFilter === "all" ? works : works.filter(w => w.category === activeFilter);
+  const filtered = filter === "all" ? WORKS : WORKS.filter(w => w.cat === filter);
 
   const calcPrice = () => {
-    const base: Record<string, number> = { kitchen: 45000, wardrobe: 28000, living: 55000, bedroom: 38000 };
-    const mat: Record<string, number> = { ldsp: 1, mdf: 1.3, massiv: 2.1 };
-    return Math.round(base[calcData.type] * calcData.width * calcData.height * mat[calcData.material] / 10) * 10;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
+    const base: Record<string, number> = { kitchen: 48000, wardrobe: 30000, living: 52000 };
+    const mat:  Record<string, number> = { ldsp: 1, mdf: 1.35, akril: 1.8 };
+    return Math.round((base[calc.type] ?? 40000) * calc.w * calc.h * (mat[calc.material] ?? 1) / 10) * 10;
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream font-montserrat">
+    <div className="min-h-screen bg-white text-brand-dark font-montserrat">
 
       {/* NAV */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-brand-cream/95 backdrop-blur-sm border-b border-brand-warm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <a href="#" className="font-cormorant text-2xl font-semibold text-brand-text tracking-wide">
+      <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b border-brand-mid">
+        <div className="max-w-7xl mx-auto px-5 h-[60px] flex items-center justify-between">
+          <a href="#" className="flex items-center gap-2 font-bold text-xl tracking-tight text-brand-dark">
             Мебелекс
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-orange mt-0.5" />
           </a>
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map(l => (
-              <a key={l.href} href={l.href} className="text-sm text-brand-muted hover:text-brand-gold transition-colors duration-200 font-medium">
+          <nav className="hidden lg:flex items-center gap-7">
+            {NAV.map(l => (
+              <a key={l.href} href={l.href} className="text-sm text-brand-muted hover:text-brand-dark transition-colors font-medium">
                 {l.label}
               </a>
             ))}
           </nav>
-          <a href="#contacts" className="hidden lg:inline-flex items-center gap-2 bg-brand-gold text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-amber-700 transition-colors duration-200">
-            Получить консультацию
-          </a>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-brand-text">
-            <Icon name={menuOpen ? "X" : "Menu"} size={24} />
+          <div className="hidden lg:flex items-center gap-4">
+            <a href="tel:+74951234567" className="text-sm font-semibold text-brand-dark">+7 (495) 123-45-67</a>
+            <a href="#contacts" className="bg-brand-orange text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+              Заказать замер
+            </a>
+          </div>
+          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-brand-dark">
+            <Icon name={menuOpen ? "X" : "Menu"} size={22} />
           </button>
         </div>
         {menuOpen && (
-          <div className="lg:hidden bg-brand-cream border-t border-brand-warm px-4 py-4 flex flex-col gap-4">
-            {navLinks.map(l => (
-              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="text-brand-text font-medium py-1">{l.label}</a>
+          <div className="lg:hidden bg-white border-t border-brand-mid px-5 py-4 flex flex-col gap-4">
+            {NAV.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className="text-brand-dark font-medium py-1 text-sm">{l.label}</a>
             ))}
-            <a href="#contacts" onClick={() => setMenuOpen(false)} className="bg-brand-gold text-white text-sm font-medium px-5 py-3 rounded-full text-center">
-              Получить консультацию
+            <a href="#contacts" onClick={() => setMenuOpen(false)} className="bg-brand-orange text-white font-semibold py-3 rounded-lg text-center text-sm">
+              Заказать замер
             </a>
           </div>
         )}
       </header>
 
       {/* MARQUEE */}
-      <div className="fixed top-16 left-0 right-0 z-40 bg-brand-gold text-white text-xs font-medium py-1.5 overflow-hidden">
+      <div className="fixed top-[60px] inset-x-0 z-40 bg-brand-dark text-white text-[11px] font-medium py-[5px] overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
-          {[...Array(4)].map((_, i) => (
-            <span key={i} className="flex items-center gap-8 pr-8">
-              <span>✦ Бесплатный замер по Москве и МО</span>
-              <span>✦ Гарантия 3 года на все изделия</span>
-              <span>✦ Скидка 15% первым клиентам</span>
-              <span>✦ 3D-проект в подарок при заказе</span>
-              <span>✦ Производство от 2 недель</span>
+          {[...Array(5)].map((_, i) => (
+            <span key={i} className="flex items-center gap-10 pr-10">
+              <span>→ Бесплатный замер по Москве и МО</span>
+              <span>→ Производство без посредников</span>
+              <span>→ Гарантия 3 года</span>
+              <span>→ ЧПУ-точность до 0,1 мм</span>
+              <span>→ Монтаж под ключ</span>
             </span>
           ))}
         </div>
       </div>
 
       {/* HERO */}
-      <div className="relative h-screen min-h-[600px] pt-24 flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={HERO_IMAGE} alt="Мебелекс" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-cream/90 via-brand-cream/60 to-transparent" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-xl">
-            <p className="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4">Мебель по индивидуальным проектам</p>
-            <h1 className="font-cormorant text-5xl md:text-7xl font-light text-brand-text leading-tight mb-6">
-              Создаём мебель,<br />
-              <em className="font-normal text-brand-gold">которую любят</em>
+      <section className="relative h-screen min-h-[640px] pt-[88px] flex items-end overflow-hidden">
+        <img src={IMG_HERO} alt="hero" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/30 to-transparent" />
+        <div className="relative z-10 max-w-7xl mx-auto px-5 pb-16 w-full">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-brand-orange text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              Корпусная мебель на заказ
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.05] mb-6">
+              Мебель точно<br />
+              <span className="text-brand-orange">под ваш</span> размер
             </h1>
-            <p className="text-brand-muted text-base md:text-lg leading-relaxed mb-8 max-w-md">
-              Каждое изделие создаётся с нуля под ваш проект, вкус и пространство. Работаем с 2010 года.
+            <p className="text-white/70 text-lg mb-8 max-w-lg leading-relaxed">
+              Шкафы, кухни, ТВ-стенки и гардеробные — изготавливаем за 2–4 недели на собственном производстве.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#contacts" className="bg-brand-gold text-white font-medium px-7 py-3.5 rounded-full hover:bg-amber-700 transition-all duration-200 hover:scale-105">
-                Заказать консультацию
+            <div className="flex flex-wrap gap-3">
+              <a href="#contacts" className="bg-brand-orange text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-orange-600 transition-all hover:scale-[1.02]">
+                Рассчитать стоимость
               </a>
-              <a href="#works" className="border border-brand-gold text-brand-gold font-medium px-7 py-3.5 rounded-full hover:bg-brand-gold hover:text-white transition-all duration-200">
+              <a href="#works" className="bg-white/10 backdrop-blur text-white font-semibold px-7 py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-all">
                 Смотреть работы
               </a>
             </div>
-            <div className="flex items-center gap-8 mt-10">
-              {[["500+", "проектов"], ["14", "лет опыта"], ["3 года", "гарантия"]].map(([n, l]) => (
-                <div key={n}>
-                  <div className="font-cormorant text-3xl font-semibold text-brand-text">{n}</div>
-                  <div className="text-brand-muted text-xs">{l}</div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-      </div>
-
-      {/* ADVANTAGES */}
-      <Section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: "Medal", title: "Премиальные материалы", desc: "Используем только сертифицированное сырьё от европейских производителей" },
-              { icon: "Fingerprint", title: "100% индивидуально", desc: "Каждый проект создаётся с нуля под ваши размеры, вкус и образ жизни" },
-              { icon: "Clock", title: "Точно в срок", desc: "Соблюдаем договорные сроки и несём финансовую ответственность за их нарушение" },
-            ].map(item => (
-              <div key={item.title} className="flex gap-5 group">
-                <div className="w-12 h-12 rounded-full bg-brand-warm flex items-center justify-center shrink-0 group-hover:bg-brand-gold transition-colors duration-300">
-                  <Icon name={item.icon} size={22} className="text-brand-gold group-hover:text-white transition-colors duration-300" />
-                </div>
-                <div>
-                  <h3 className="font-cormorant text-xl font-semibold text-brand-text mb-1">{item.title}</h3>
-                  <p className="text-brand-muted text-sm leading-relaxed">{item.desc}</p>
-                </div>
+          <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/15">
+            {[["500+", "проектов"], ["14 лет", "на рынке"], ["2–4 нед.", "срок"], ["0 ₽", "замер"]].map(([n, l]) => (
+              <div key={n}>
+                <div className="text-white font-bold text-2xl">{n}</div>
+                <div className="text-white/50 text-xs mt-0.5">{l}</div>
               </div>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* WORKS */}
-      <Section id="works" className="py-20 bg-brand-cream">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Портфолио</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light mb-4">Наши работы</h2>
-            <p className="text-brand-muted max-w-lg mx-auto">Более 500 реализованных проектов — от кухни до гардеробной</p>
-          </div>
-          <div className="flex flex-wrap gap-2 justify-center mb-10">
-            {Object.entries(filterLabels).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setActiveFilter(key)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${activeFilter === key ? "bg-brand-gold text-white" : "bg-white text-brand-muted hover:text-brand-gold border border-brand-warm"}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredWorks.map(work => (
-              <div key={work.id} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                <div className="relative h-52 overflow-hidden">
-                  <img src={work.img} alt={work.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-brand-gold text-xs font-semibold px-3 py-1 rounded-full">
-                    {work.price}
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-cormorant text-xl font-semibold text-brand-text mb-1">{work.title}</h3>
-                  <p className="text-brand-muted text-sm mb-2">{work.desc}</p>
-                  <div className="flex items-center gap-2 text-xs text-brand-muted">
-                    <Icon name="Maximize2" size={12} />
-                    <span>{work.size}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* PROCESS */}
-      <Section id="process" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Как мы работаем</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light mb-4">Процесс заказа</h2>
-            <p className="text-brand-muted max-w-lg mx-auto">5 простых шагов от идеи до готовой мебели в вашем доме</p>
-          </div>
-          <div className="relative">
-            <div className="hidden lg:block absolute top-8 left-[10%] right-[10%] h-px bg-brand-warm" />
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-              {steps.map((step, i) => (
-                <div key={i} className="flex flex-col items-center text-center group">
-                  <div className="relative w-16 h-16 rounded-full bg-brand-warm flex items-center justify-center mb-4 group-hover:bg-brand-gold transition-colors duration-300 z-10">
-                    <Icon name={step.icon} size={26} className="text-brand-gold group-hover:text-white transition-colors duration-300" />
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand-gold text-white text-xs rounded-full flex items-center justify-center font-semibold group-hover:bg-white group-hover:text-brand-gold transition-colors duration-300">{i + 1}</span>
-                  </div>
-                  <h3 className="font-cormorant text-lg font-semibold text-brand-text mb-2">{step.title}</h3>
-                  <p className="text-brand-muted text-sm leading-relaxed">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* CALCULATOR */}
-      <Section className="py-20 bg-brand-warm">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto bg-white rounded-3xl p-8 md:p-12 shadow-sm">
-            <div className="text-center mb-10">
-              <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Онлайн-расчёт</p>
-              <h2 className="font-cormorant text-3xl md:text-4xl text-brand-text font-light">Узнайте примерную стоимость</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <section id="works" className="py-24 bg-brand-gray">
+        <div className="max-w-7xl mx-auto px-5">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
               <div>
-                <label className="text-brand-text text-sm font-medium block mb-2">Тип мебели</label>
-                <select
-                  value={calcData.type}
-                  onChange={e => setCalcData({ ...calcData, type: e.target.value })}
-                  className="w-full border border-brand-warm rounded-xl px-4 py-3 text-brand-text bg-white focus:outline-none focus:border-brand-gold text-sm"
-                >
-                  <option value="kitchen">Кухня</option>
-                  <option value="wardrobe">Шкаф / гардеробная</option>
-                  <option value="living">Гостиная</option>
-                  <option value="bedroom">Спальня</option>
-                </select>
+                <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-2">Портфолио</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-dark">Наши работы</h2>
               </div>
-              <div>
-                <label className="text-brand-text text-sm font-medium block mb-2">Материал</label>
-                <select
-                  value={calcData.material}
-                  onChange={e => setCalcData({ ...calcData, material: e.target.value })}
-                  className="w-full border border-brand-warm rounded-xl px-4 py-3 text-brand-text bg-white focus:outline-none focus:border-brand-gold text-sm"
-                >
-                  <option value="ldsp">ЛДСП (эконом)</option>
-                  <option value="mdf">МДФ (стандарт)</option>
-                  <option value="massiv">Массив дерева (премиум)</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-brand-text text-sm font-medium block mb-2">Ширина: {calcData.width} м</label>
-                <input
-                  type="range" min="1" max="6" step="0.1" value={calcData.width}
-                  onChange={e => setCalcData({ ...calcData, width: +e.target.value })}
-                  className="w-full accent-brand-gold"
-                />
-              </div>
-              <div>
-                <label className="text-brand-text text-sm font-medium block mb-2">Высота: {calcData.height} м</label>
-                <input
-                  type="range" min="1.5" max="3" step="0.1" value={calcData.height}
-                  onChange={e => setCalcData({ ...calcData, height: +e.target.value })}
-                  className="w-full accent-brand-gold"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-brand-cream rounded-2xl p-6">
-              <div>
-                <p className="text-brand-muted text-sm mb-1">Примерная стоимость</p>
-                <p className="font-cormorant text-4xl font-semibold text-brand-gold">{calcPrice().toLocaleString("ru-RU")} ₽</p>
-                <p className="text-brand-muted text-xs mt-1">* Точная цена после замера</p>
-              </div>
-              <a href="#contacts" className="bg-brand-gold text-white font-medium px-8 py-3.5 rounded-full hover:bg-amber-700 transition-colors duration-200 whitespace-nowrap">
-                Получить точный расчёт
-              </a>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* MATERIALS */}
-      <Section id="materials" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-4">Качество без компромиссов</p>
-              <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light mb-6 leading-tight">
-                Материалы и<br />технологии
-              </h2>
-              <p className="text-brand-muted leading-relaxed mb-8">
-                Работаем только с проверенными поставщиками и используем современное оборудование с ЧПУ для точного изготовления каждой детали.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {materials.map(m => (
-                  <div key={m.title} className="group">
-                    <div className="w-10 h-10 rounded-xl bg-brand-warm flex items-center justify-center mb-3 group-hover:bg-brand-gold transition-colors duration-300">
-                      <Icon name={m.icon} size={20} className="text-brand-gold group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <h3 className="font-cormorant text-lg font-semibold text-brand-text mb-1">{m.title}</h3>
-                    <p className="text-brand-muted text-sm leading-relaxed">{m.desc}</p>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(FILTERS).map(([k, v]) => (
+                  <button key={k} onClick={() => setFilter(k)}
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${filter === k
+                      ? "bg-brand-dark text-white"
+                      : "bg-white text-brand-muted hover:text-brand-dark border border-brand-mid"}`}>
+                    {v}
+                  </button>
                 ))}
               </div>
             </div>
-            <div className="relative">
-              <img src={WORKSHOP_IMAGE} alt="Производство" className="w-full h-[500px] object-cover rounded-3xl" />
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-5 shadow-lg">
-                <div className="font-cormorant text-3xl font-semibold text-brand-gold">ЧПУ</div>
-                <div className="text-brand-muted text-xs mt-1">Точность до 0,1 мм</div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.map((w, i) => (
+              <Reveal key={w.id} delay={i * 80}>
+                <div className="group bg-white rounded-2xl overflow-hidden border border-brand-mid hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="relative h-56 overflow-hidden">
+                    <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute top-3 right-3 bg-brand-dark/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                      {w.price}
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-brand-dark text-lg mb-1">{w.title}</h3>
+                    <p className="text-brand-muted text-sm mb-3">{w.mat}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-brand-muted text-xs">
+                        <Icon name="Maximize2" size={12} />
+                        <span>{w.size}</span>
+                      </div>
+                      <a href="#contacts" className="text-brand-orange text-xs font-semibold hover:underline flex items-center gap-1">
+                        Хочу такой же <Icon name="ArrowRight" size={12} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section id="process" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-16">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Как мы работаем</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-brand-dark">5 шагов до готовой мебели</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            {STEPS.map((s, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <div className="relative group">
+                  {i < STEPS.length - 1 && (
+                    <div className="hidden md:block absolute top-6 left-[calc(50%+28px)] w-full h-px bg-brand-mid" />
+                  )}
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-xl bg-brand-gray flex items-center justify-center mb-4 group-hover:bg-brand-orange transition-colors duration-300 relative z-10">
+                      <Icon name={s.icon} size={22} className="text-brand-dark group-hover:text-white transition-colors duration-300" />
+                    </div>
+                    <div className="text-brand-orange text-xs font-bold mb-1">0{i + 1}</div>
+                    <h3 className="font-bold text-brand-dark mb-2 text-sm">{s.title}</h3>
+                    <p className="text-brand-muted text-xs leading-relaxed">{s.desc}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CALCULATOR */}
+      <section className="py-24 bg-brand-dark">
+        <div className="max-w-4xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-12">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Онлайн-расчёт</p>
+              <h2 className="text-4xl font-bold text-white">Сколько стоит ваша мебель?</h2>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Тип мебели</label>
+                  <select value={calc.type} onChange={e => setCalc({ ...calc, type: e.target.value })}
+                    className="w-full bg-white/10 border border-white/15 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-orange">
+                    <option value="kitchen"  className="text-black">Кухня</option>
+                    <option value="wardrobe" className="text-black">Шкаф / гардеробная</option>
+                    <option value="living"   className="text-black">ТВ-стенка / гостиная</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Материал</label>
+                  <select value={calc.material} onChange={e => setCalc({ ...calc, material: e.target.value })}
+                    className="w-full bg-white/10 border border-white/15 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-orange">
+                    <option value="ldsp"  className="text-black">ЛДСП (эконом)</option>
+                    <option value="mdf"   className="text-black">МДФ эмаль (стандарт)</option>
+                    <option value="akril" className="text-black">Акрил (премиум)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Ширина: {calc.w} м</label>
+                  <input type="range" min={1} max={6} step={0.1} value={calc.w}
+                    onChange={e => setCalc({ ...calc, w: +e.target.value })}
+                    className="w-full accent-brand-orange" />
+                </div>
+                <div>
+                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Высота: {calc.h} м</label>
+                  <input type="range" min={1.5} max={3} step={0.1} value={calc.h}
+                    onChange={e => setCalc({ ...calc, h: +e.target.value })}
+                    className="w-full accent-brand-orange" />
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white/5 rounded-xl p-6 border border-white/10">
+                <div>
+                  <p className="text-white/50 text-xs mb-1">Примерная стоимость</p>
+                  <p className="text-4xl font-bold text-brand-orange">{calcPrice().toLocaleString("ru-RU")} ₽</p>
+                  <p className="text-white/40 text-xs mt-1">* Точная цена после бесплатного замера</p>
+                </div>
+                <a href="#contacts" className="bg-brand-orange text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-orange-600 transition-colors whitespace-nowrap">
+                  Получить точный расчёт →
+                </a>
               </div>
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* MATERIALS */}
+      <section id="materials" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+            <Reveal>
+              <div>
+                <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-4">Из чего делаем</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-dark mb-6 leading-tight">
+                  Материалы и<br />технологии
+                </h2>
+                <p className="text-brand-muted mb-10 leading-relaxed text-sm">
+                  Только европейские плиты и австрийская фурнитура. Раскрой на ЧПУ с точностью 0,1 мм — каждый элемент подходит идеально.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {MATERIALS.map((m, i) => (
+                    <div key={i} className="group flex gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-brand-gray flex items-center justify-center shrink-0 group-hover:bg-brand-orange transition-colors duration-300">
+                        <Icon name={m.icon} size={18} className="text-brand-dark group-hover:text-white transition-colors duration-300" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-brand-dark text-sm mb-1">{m.title}</h3>
+                        <p className="text-brand-muted text-xs leading-relaxed">{m.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={150}>
+              <div className="relative">
+                <img src={IMG_TV} alt="производство" className="w-full h-[500px] object-cover rounded-2xl" />
+                <div className="absolute -bottom-5 -left-5 bg-brand-orange text-white rounded-xl p-5 shadow-xl">
+                  <div className="text-2xl font-bold">ЧПУ</div>
+                  <div className="text-xs text-white/80 mt-0.5">Точность 0,1 мм</div>
+                </div>
+                <div className="absolute -top-5 -right-5 bg-white border border-brand-mid rounded-xl p-4 shadow-xl">
+                  <div className="text-2xl font-bold text-brand-dark">Blum</div>
+                  <div className="text-xs text-brand-muted mt-0.5">Австрийская фурнитура</div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* REVIEWS */}
-      <Section id="reviews" className="py-20 bg-brand-cream">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Отзывы</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light mb-4">Клиенты о нас</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {reviews.map((r, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div className="flex mb-4">
-                  {[...Array(r.rating)].map((_, j) => <span key={j} className="text-brand-gold text-sm">★</span>)}
-                </div>
-                <p className="text-brand-text text-sm leading-relaxed mb-5 italic">«{r.text}»</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-brand-warm flex items-center justify-center font-cormorant text-brand-gold font-semibold text-lg">
-                    {r.name[0]}
+      <section id="reviews" className="py-24 bg-brand-gray">
+        <div className="max-w-7xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Отзывы</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-brand-dark">Что говорят клиенты</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {REVIEWS.map((r, i) => (
+              <Reveal key={i} delay={i * 80}>
+                <div className="bg-white rounded-2xl p-6 border border-brand-mid hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+                  <div className="flex mb-4">
+                    {[...Array(r.stars)].map((_, j) => <span key={j} className="text-brand-orange text-base">★</span>)}
                   </div>
-                  <div>
-                    <div className="text-brand-text text-sm font-semibold">{r.name}</div>
-                    <div className="text-brand-muted text-xs">{r.city}</div>
+                  <p className="text-brand-dark text-sm leading-relaxed flex-1">«{r.text}»</p>
+                  <div className="flex items-center gap-3 mt-5 pt-5 border-t border-brand-mid">
+                    <div className="w-9 h-9 rounded-lg bg-brand-gray flex items-center justify-center font-bold text-brand-dark text-sm">
+                      {r.name[0]}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-sm text-brand-dark">{r.name}</div>
+                      <div className="text-brand-muted text-xs">{r.city}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* PROMO */}
-      <Section id="promo" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Специальные предложения</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light">Акции и новинки</h2>
-          </div>
+      <section id="promo" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Акции</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-brand-dark">Специальные предложения</h2>
+            </div>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {promos.map((p, i) => (
-              <div key={i} className="border border-brand-warm rounded-2xl p-7 hover:border-brand-gold transition-colors duration-300 group">
-                <span className="inline-block bg-brand-warm text-brand-gold text-xs font-semibold px-3 py-1 rounded-full mb-4 group-hover:bg-brand-gold group-hover:text-white transition-colors duration-300">
-                  {p.badge}
-                </span>
-                <h3 className="font-cormorant text-2xl font-semibold text-brand-text mb-2">{p.title}</h3>
-                <p className="text-brand-muted text-sm leading-relaxed mb-4">{p.desc}</p>
-                <div className="flex items-center gap-2 text-brand-muted text-xs">
-                  <Icon name="Calendar" size={13} />
-                  <span>{p.until}</span>
+            {PROMOS.map((p, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <div className={`rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-1 ${i === 0
+                  ? "bg-brand-orange text-white border-brand-orange"
+                  : "bg-white border-brand-mid hover:border-brand-orange"}`}>
+                  <span className={`inline-block text-xs font-bold px-3 py-1 rounded-lg mb-5 ${i === 0 ? "bg-white/20 text-white" : "bg-brand-gray text-brand-muted"}`}>
+                    {p.tag}
+                  </span>
+                  <h3 className={`text-2xl font-bold mb-3 ${i === 0 ? "text-white" : "text-brand-dark"}`}>{p.title}</h3>
+                  <p className={`text-sm leading-relaxed mb-5 ${i === 0 ? "text-white/80" : "text-brand-muted"}`}>{p.desc}</p>
+                  <div className={`flex items-center gap-2 text-xs font-medium ${i === 0 ? "text-white/70" : "text-brand-muted"}`}>
+                    <Icon name="Clock" size={13} />
+                    {p.till}
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* FAQ */}
-      <Section className="py-20 bg-brand-cream">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-12">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">FAQ</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light">Частые вопросы</h2>
-          </div>
+      <section className="py-24 bg-brand-gray">
+        <div className="max-w-3xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">FAQ</p>
+              <h2 className="text-4xl font-bold text-brand-dark">Частые вопросы</h2>
+            </div>
+          </Reveal>
           <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <button
-                  className="w-full flex items-center justify-between p-6 text-left"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                >
-                  <span className="font-cormorant text-lg font-semibold text-brand-text pr-4">{faq.q}</span>
-                  <Icon name={openFaq === i ? "ChevronUp" : "ChevronDown"} size={18} className="text-brand-gold shrink-0" />
-                </button>
-                {openFaq === i && (
-                  <div className="px-6 pb-6 text-brand-muted text-sm leading-relaxed border-t border-brand-warm pt-4">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
+            {FAQS.map((f, i) => (
+              <Reveal key={i} delay={i * 60}>
+                <div className="bg-white rounded-xl border border-brand-mid overflow-hidden">
+                  <button className="w-full flex items-center justify-between px-6 py-5 text-left"
+                    onClick={() => setFaqOpen(faqOpen === i ? null : i)}>
+                    <span className="font-semibold text-brand-dark text-sm pr-4">{f.q}</span>
+                    <Icon name={faqOpen === i ? "Minus" : "Plus"} size={16} className="text-brand-orange shrink-0" />
+                  </button>
+                  {faqOpen === i && (
+                    <div className="px-6 pb-5 text-brand-muted text-sm leading-relaxed border-t border-brand-mid pt-4">
+                      {f.a}
+                    </div>
+                  )}
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* CONTACTS */}
-      <Section id="contacts" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase mb-3">Свяжитесь с нами</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl text-brand-text font-light mb-4">Контакты</h2>
-            <p className="text-brand-muted">Ответим в течение 30 минут в рабочее время</p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            <div>
+      <section id="contacts" className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-5">
+          <Reveal>
+            <div className="text-center mb-14">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Контакты</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-brand-dark">Давайте обсудим проект</h2>
+              <p className="text-brand-muted mt-3 text-sm">Ответим в течение 30 минут в рабочее время</p>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+            <Reveal className="lg:col-span-3">
               {submitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                  <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-4">
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center mb-4">
                     <Icon name="CheckCircle" size={32} className="text-green-500" />
                   </div>
-                  <h3 className="font-cormorant text-2xl font-semibold text-brand-text mb-2">Спасибо за обращение!</h3>
-                  <p className="text-brand-muted">Наш менеджер свяжется с вами в ближайшее время</p>
+                  <h3 className="text-2xl font-bold text-brand-dark mb-2">Заявка принята!</h3>
+                  <p className="text-brand-muted text-sm">Перезвоним в течение 30 минут</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="text-brand-text text-sm font-medium block mb-2">Ваше имя</label>
-                    <input
-                      type="text" required placeholder="Иван Иванов"
-                      value={formData.name}
-                      onChange={e => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full border border-brand-warm rounded-xl px-4 py-3 text-brand-text bg-white focus:outline-none focus:border-brand-gold transition-colors text-sm"
-                    />
+                <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-brand-dark text-xs font-semibold uppercase tracking-wide block mb-2">Имя</label>
+                      <input type="text" required placeholder="Иван Иванов"
+                        value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+                        className="w-full border border-brand-mid rounded-xl px-4 py-3 text-brand-dark text-sm focus:outline-none focus:border-brand-orange transition-colors" />
+                    </div>
+                    <div>
+                      <label className="text-brand-dark text-xs font-semibold uppercase tracking-wide block mb-2">Телефон</label>
+                      <input type="tel" required placeholder="+7 (___) ___-__-__"
+                        value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
+                        className="w-full border border-brand-mid rounded-xl px-4 py-3 text-brand-dark text-sm focus:outline-none focus:border-brand-orange transition-colors" />
+                    </div>
                   </div>
                   <div>
-                    <label className="text-brand-text text-sm font-medium block mb-2">Телефон</label>
-                    <input
-                      type="tel" required placeholder="+7 (___) ___-__-__"
-                      value={formData.phone}
-                      onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full border border-brand-warm rounded-xl px-4 py-3 text-brand-text bg-white focus:outline-none focus:border-brand-gold transition-colors text-sm"
-                    />
+                    <label className="text-brand-dark text-xs font-semibold uppercase tracking-wide block mb-2">О проекте</label>
+                    <textarea rows={4} placeholder="Кухня 3×4 м, ЛДСП, без ручек..."
+                      value={form.comment} onChange={e => setForm({ ...form, comment: e.target.value })}
+                      className="w-full border border-brand-mid rounded-xl px-4 py-3 text-brand-dark text-sm focus:outline-none focus:border-brand-orange transition-colors resize-none" />
                   </div>
-                  <div>
-                    <label className="text-brand-text text-sm font-medium block mb-2">Расскажите о проекте</label>
-                    <textarea
-                      rows={4} placeholder="Кухня 3×4 м, стиль современный, бюджет ~200 000 ₽..."
-                      value={formData.message}
-                      onChange={e => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full border border-brand-warm rounded-xl px-4 py-3 text-brand-text bg-white focus:outline-none focus:border-brand-gold transition-colors text-sm resize-none"
-                    />
-                  </div>
-                  <button type="submit" className="w-full bg-brand-gold text-white font-medium py-4 rounded-full hover:bg-amber-700 transition-colors duration-200">
-                    Отправить заявку
+                  <button type="submit" className="w-full bg-brand-orange text-white font-semibold py-4 rounded-xl hover:bg-orange-600 transition-colors text-sm">
+                    Отправить заявку и получить расчёт
                   </button>
                   <p className="text-brand-muted text-xs text-center">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
                 </form>
               )}
-            </div>
-            <div className="space-y-6">
-              {[
-                { icon: "Phone", label: "Телефон", value: "+7 (495) 123-45-67" },
-                { icon: "Mail", label: "Email", value: "info@mebelex.ru" },
-                { icon: "MapPin", label: "Адрес", value: "г. Москва, ул. Производственная, 15, стр. 2" },
-                { icon: "Clock", label: "Режим работы", value: "Пн–Пт: 9:00–19:00, Сб: 10:00–17:00" },
-              ].map(c => (
-                <div key={c.label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-brand-warm flex items-center justify-center shrink-0">
-                    <Icon name={c.icon} size={18} className="text-brand-gold" />
+            </Reveal>
+
+            <Reveal delay={120} className="lg:col-span-2">
+              <div className="space-y-4">
+                {[
+                  { icon: "Phone",  label: "Телефон",      value: "+7 (495) 123-45-67" },
+                  { icon: "Mail",   label: "Email",         value: "info@mebelex.ru" },
+                  { icon: "MapPin", label: "Адрес",         value: "Москва, ул. Производственная, 15" },
+                  { icon: "Clock",  label: "Режим работы",  value: "Пн–Пт 9:00–19:00, Сб 10:00–17:00" },
+                ].map(c => (
+                  <div key={c.label} className="flex items-start gap-4 bg-brand-gray rounded-xl p-4">
+                    <div className="w-9 h-9 rounded-lg bg-brand-orange/10 flex items-center justify-center shrink-0">
+                      <Icon name={c.icon} size={17} className="text-brand-orange" />
+                    </div>
+                    <div>
+                      <div className="text-brand-muted text-xs mb-0.5">{c.label}</div>
+                      <div className="text-brand-dark font-semibold text-sm">{c.value}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-brand-muted text-xs mb-0.5">{c.label}</div>
-                    <div className="text-brand-text font-medium text-sm">{c.value}</div>
+                ))}
+                <div className="pt-2">
+                  <p className="text-brand-muted text-xs mb-3">Мы в соцсетях:</p>
+                  <div className="flex gap-2">
+                    {[
+                      { icon: "MessageCircle", label: "Telegram" },
+                      { icon: "Instagram",     label: "Instagram" },
+                      { icon: "Youtube",       label: "YouTube" },
+                    ].map(s => (
+                      <a key={s.label} href="#"
+                        className="w-10 h-10 rounded-xl bg-brand-gray flex items-center justify-center hover:bg-brand-orange group transition-colors duration-200">
+                        <Icon name={s.icon} size={17} className="text-brand-muted group-hover:text-white transition-colors" />
+                      </a>
+                    ))}
                   </div>
-                </div>
-              ))}
-              <div className="pt-4 border-t border-brand-warm">
-                <p className="text-brand-muted text-sm mb-4">Мы в социальных сетях:</p>
-                <div className="flex gap-3">
-                  {[
-                    { icon: "MessageCircle", label: "Telegram" },
-                    { icon: "Instagram", label: "Instagram" },
-                    { icon: "Youtube", label: "YouTube" },
-                  ].map(s => (
-                    <a key={s.label} href="#" className="w-10 h-10 rounded-full bg-brand-warm flex items-center justify-center hover:bg-brand-gold group transition-colors duration-200">
-                      <Icon name={s.icon} size={18} className="text-brand-gold group-hover:text-white transition-colors duration-200" />
-                    </a>
-                  ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* FOOTER */}
-      <footer className="bg-brand-text text-white py-10">
-        <div className="container mx-auto px-4">
+      <footer className="bg-brand-dark text-white py-10">
+        <div className="max-w-7xl mx-auto px-5">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <div className="font-cormorant text-2xl font-semibold mb-1">Мебелекс</div>
-              <div className="text-white/50 text-xs">Мебель по индивидуальным проектам</div>
+            <div className="flex items-center gap-2 font-bold text-xl">
+              Мебелекс
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-orange" />
             </div>
-            <div className="flex flex-wrap gap-6 text-sm text-white/60">
-              {navLinks.map(l => <a key={l.href} href={l.href} className="hover:text-white transition-colors">{l.label}</a>)}
+            <div className="flex flex-wrap gap-6 text-sm text-white/40">
+              {NAV.map(l => <a key={l.href} href={l.href} className="hover:text-white transition-colors">{l.label}</a>)}
             </div>
-            <div className="text-white/40 text-xs">© 2026 Мебелекс. Все права защищены</div>
+            <p className="text-white/30 text-xs">© 2026 Мебелекс. Все права защищены</p>
           </div>
         </div>
       </footer>
 
       {/* FLOATING CTA */}
-      <a
-        href="#contacts"
-        className="fixed bottom-6 right-6 z-50 bg-brand-gold text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-amber-700 hover:scale-110 transition-all duration-200"
-        title="Заказать консультацию"
-      >
+      <a href="#contacts"
+        className="fixed bottom-6 right-6 z-50 bg-brand-orange text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg hover:bg-orange-600 hover:scale-110 transition-all duration-200"
+        title="Заказать замер">
         <Icon name="MessageSquare" size={22} />
       </a>
     </div>
