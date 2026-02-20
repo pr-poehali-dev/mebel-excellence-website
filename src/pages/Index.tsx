@@ -94,15 +94,8 @@ export default function Index() {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm]           = useState({ name: "", phone: "", comment: "" });
-  const [calc, setCalc]           = useState({ type: "kitchen", material: "ldsp", w: 3, h: 2.4 });
 
   const filtered = filter === "all" ? WORKS : WORKS.filter(w => w.cat === filter);
-
-  const calcPrice = () => {
-    const base: Record<string, number> = { kitchen: 48000, wardrobe: 30000, living: 52000 };
-    const mat:  Record<string, number> = { ldsp: 1, mdf: 1.35, akril: 1.8 };
-    return Math.round((base[calc.type] ?? 40000) * calc.w * calc.h * (mat[calc.material] ?? 1) / 10) * 10;
-  };
 
   return (
     <div className="min-h-screen bg-white text-brand-dark font-montserrat">
@@ -144,15 +137,15 @@ export default function Index() {
       </header>
 
       {/* MARQUEE */}
-      <div className="fixed top-[60px] inset-x-0 z-40 bg-brand-dark text-white text-[11px] font-medium py-[5px] overflow-hidden">
+      <div className="fixed top-[60px] inset-x-0 z-40 bg-brand-orange text-white text-[11px] font-bold py-[6px] overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...Array(5)].map((_, i) => (
             <span key={i} className="flex items-center gap-10 pr-10">
-              <span>→ Бесплатный замер по Москве и МО</span>
-              <span>→ Производство без посредников</span>
-              <span>→ Гарантия 3 года</span>
-              <span>→ ЧПУ-точность до 0,1 мм</span>
-              <span>→ Монтаж под ключ</span>
+              <span className="flex items-center gap-1.5"><span className="opacity-60">✦</span> Бесплатный замер по Москве и МО</span>
+              <span className="flex items-center gap-1.5"><span className="opacity-60">✦</span> Производство без посредников</span>
+              <span className="flex items-center gap-1.5"><span className="opacity-60">✦</span> Гарантия 3 года</span>
+              <span className="flex items-center gap-1.5"><span className="opacity-60">✦</span> ЧПУ-точность до 0,1 мм</span>
+              <span className="flex items-center gap-1.5"><span className="opacity-60">✦</span> Монтаж под ключ</span>
             </span>
           ))}
         </div>
@@ -274,64 +267,6 @@ export default function Index() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CALCULATOR */}
-      <section className="py-24 bg-brand-dark">
-        <div className="max-w-4xl mx-auto px-5">
-          <Reveal>
-            <div className="text-center mb-12">
-              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-3">Онлайн-расчёт</p>
-              <h2 className="text-4xl font-bold text-white">Сколько стоит ваша мебель?</h2>
-            </div>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div>
-                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Тип мебели</label>
-                  <select value={calc.type} onChange={e => setCalc({ ...calc, type: e.target.value })}
-                    className="w-full bg-white/10 border border-white/15 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-orange">
-                    <option value="kitchen"  className="text-black">Кухня</option>
-                    <option value="wardrobe" className="text-black">Шкаф / гардеробная</option>
-                    <option value="living"   className="text-black">ТВ-стенка / гостиная</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Материал</label>
-                  <select value={calc.material} onChange={e => setCalc({ ...calc, material: e.target.value })}
-                    className="w-full bg-white/10 border border-white/15 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-brand-orange">
-                    <option value="ldsp"  className="text-black">ЛДСП (эконом)</option>
-                    <option value="mdf"   className="text-black">МДФ эмаль (стандарт)</option>
-                    <option value="akril" className="text-black">Акрил (премиум)</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Ширина: {calc.w} м</label>
-                  <input type="range" min={1} max={6} step={0.1} value={calc.w}
-                    onChange={e => setCalc({ ...calc, w: +e.target.value })}
-                    className="w-full accent-brand-orange" />
-                </div>
-                <div>
-                  <label className="text-white/60 text-xs font-semibold uppercase tracking-wide block mb-2">Высота: {calc.h} м</label>
-                  <input type="range" min={1.5} max={3} step={0.1} value={calc.h}
-                    onChange={e => setCalc({ ...calc, h: +e.target.value })}
-                    className="w-full accent-brand-orange" />
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white/5 rounded-xl p-6 border border-white/10">
-                <div>
-                  <p className="text-white/50 text-xs mb-1">Примерная стоимость</p>
-                  <p className="text-4xl font-bold text-brand-orange">{calcPrice().toLocaleString("ru-RU")} ₽</p>
-                  <p className="text-white/40 text-xs mt-1">* Точная цена после бесплатного замера</p>
-                </div>
-                <a href="#contacts" className="bg-brand-orange text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-orange-600 transition-colors whitespace-nowrap">
-                  Получить точный расчёт →
-                </a>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 
