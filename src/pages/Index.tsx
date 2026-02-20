@@ -244,6 +244,13 @@ const WORKS = [
     price: "от 115 000 ₽",
     imgs: [
       "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d292966f-99be-4993-a94d-e8030d910252.jpeg",
+      "https://cdn.poehali.dev/files/8a336589-7b1c-44ed-91c5-b1e57ad62b1a.jpg",
+      "https://cdn.poehali.dev/files/dfa5ae0b-0f58-4b2e-88b1-f912072fd0e3.jpg",
+      "https://cdn.poehali.dev/files/fc8c12b5-1d34-4637-bce3-2227962ad741.jpg",
+      "https://cdn.poehali.dev/files/012d0e28-0e77-470d-ae51-46d9dbb4cfe8.jpg",
+      "https://cdn.poehali.dev/files/cd60448b-9c4e-425c-b894-37365da0c93d.jpg",
+      "https://cdn.poehali.dev/files/940e0d50-2ae7-4e64-b77d-6faabc73a4dc.jpg",
+      "https://cdn.poehali.dev/files/1d30612a-8b9b-47c5-9b3d-bdbd83262b08.jpg",
     ],
   },
   {
