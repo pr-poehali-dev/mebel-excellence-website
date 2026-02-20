@@ -16,16 +16,25 @@ const NAV = [
 ];
 
 const WORKS = [
-  { id: 1, cat: "wardrobe", title: "Гардеробная система",  mat: "ЛДСП + алюминий",     size: "3.6 × 2.4 м",   price: "от 85 000 ₽",  img: IMG_HERO },
-  { id: 2, cat: "kitchen",  title: "Кухня без ручек",      mat: "МДФ эмаль + ламинат", size: "3.2 × 1.8 м",   price: "от 165 000 ₽", img: IMG_KITCHEN },
-  { id: 3, cat: "living",   title: "ТВ-стенка с нишами",   mat: "МДФ + шпон ореха",    size: "3.0 × 2.2 м",   price: "от 120 000 ₽", img: IMG_TV },
-  { id: 4, cat: "wardrobe", title: "Walk-in гардеробная",  mat: "ЛДСП белый матовый",  size: "Индивидуально",  price: "от 110 000 ₽", img: IMG_CLOSET },
-  { id: 5, cat: "kitchen",  title: "Угловая кухня «Слим»", mat: "Акрил + МДФ",         size: "2.8 + 1.6 м",   price: "от 195 000 ₽", img: IMG_KITCHEN },
-  { id: 6, cat: "living",   title: "Шкаф-купе «Линия»",    mat: "Стекло + алюминий",   size: "2.4 × 2.3 м",   price: "от 70 000 ₽",  img: IMG_HERO },
+  { id: 1,  cat: "kupe",      title: "Шкаф-купе «Линия»",       mat: "Стекло + алюминий",    size: "2.4 × 2.3 м",  price: "от 70 000 ₽",  img: IMG_HERO },
+  { id: 2,  cat: "kupe",      title: "Шкаф-купе с зеркалами",   mat: "Зеркало + ЛДСП",       size: "3.0 × 2.4 м",  price: "от 85 000 ₽",  img: IMG_CLOSET },
+  { id: 3,  cat: "raspashnye",title: "Распашной шкаф «Классик»",mat: "МДФ эмаль белая",      size: "2.0 × 2.2 м",  price: "от 55 000 ₽",  img: IMG_TV },
+  { id: 4,  cat: "raspashnye",title: "Шкаф в спальню",          mat: "ЛДСП + фасад МДФ",     size: "1.8 × 2.4 м",  price: "от 48 000 ₽",  img: IMG_KITCHEN },
+  { id: 5,  cat: "garderobnie",title: "Гардеробная система",    mat: "ЛДСП + алюминий",      size: "3.6 × 2.4 м",  price: "от 85 000 ₽",  img: IMG_CLOSET },
+  { id: 6,  cat: "garderobnie",title: "Walk-in гардеробная",    mat: "ЛДСП белый матовый",   size: "Индивидуально", price: "от 110 000 ₽", img: IMG_HERO },
+  { id: 7,  cat: "rabochie",  title: "Рабочий кабинет",         mat: "МДФ + шпон ореха",     size: "3.0 × 2.0 м",  price: "от 95 000 ₽",  img: IMG_TV },
+  { id: 8,  cat: "rabochie",  title: "Домашний офис",           mat: "ЛДСП + металл",        size: "2.4 × 1.6 м",  price: "от 65 000 ₽",  img: IMG_KITCHEN },
+  { id: 9,  cat: "prikhojie", title: "Прихожая с нишами",       mat: "МДФ эмаль + зеркало",  size: "2.2 × 2.4 м",  price: "от 60 000 ₽",  img: IMG_CLOSET },
+  { id: 10, cat: "prikhojie", title: "Прихожая «Модерн»",       mat: "ЛДСП + алюминий",      size: "1.8 × 2.3 м",  price: "от 45 000 ₽",  img: IMG_TV },
 ];
 
 const FILTERS: Record<string, string> = {
-  all: "Все", wardrobe: "Шкафы и гардеробные", kitchen: "Кухни", living: "Гостиные",
+  all:          "Все",
+  kupe:         "Шкафы-купе",
+  raspashnye:   "Распашные шкафы",
+  garderobnie:  "Гардеробные",
+  rabochie:     "Рабочие зоны",
+  prikhojie:    "Прихожие",
 };
 
 const STEPS = [
