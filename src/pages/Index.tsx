@@ -562,68 +562,67 @@ export default function Index() {
           onClick={() => setSelected(null)}
         >
           <div
-            className="bg-white rounded-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col md:flex-row shadow-2xl"
+            className="bg-white rounded-2xl overflow-hidden max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             {/* Фото */}
-            <div className="md:w-[55%] h-64 md:h-auto relative shrink-0">
-              <img src={selected.img} alt={selected.title} className="w-full h-full object-cover" />
+            <div className="relative bg-brand-gray flex items-center justify-center" style={{ maxHeight: "60vh" }}>
+              <img
+                src={selected.img}
+                alt={selected.title}
+                className="w-full h-full object-contain"
+                style={{ maxHeight: "60vh" }}
+              />
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-3 right-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                className="absolute top-3 right-3 w-9 h-9 bg-white/95 rounded-full flex items-center justify-center hover:bg-white shadow-md transition-colors"
               >
-                <Icon name="X" size={16} className="text-brand-dark" />
+                <Icon name="X" size={17} className="text-brand-dark" />
               </button>
             </div>
 
             {/* Данные */}
-            <div className="flex flex-col p-7 md:w-[45%] overflow-y-auto">
-              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-2">
-                {FILTERS[selected.cat] ?? "Наши работы"}
-              </p>
-              <h2 className="text-2xl font-bold text-brand-dark mb-5 leading-tight">{selected.title}</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 border-t border-brand-mid">
+              <div className="shrink-0">
+                <p className="text-brand-orange text-xs font-bold tracking-widest uppercase">{FILTERS[selected.cat] ?? "Наши работы"}</p>
+                <h2 className="text-lg font-bold text-brand-dark leading-tight">{selected.title}</h2>
+              </div>
 
-              <div className="space-y-4 mb-6">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
-                    <Icon name="Layers" size={15} className="text-brand-orange" />
-                  </div>
+              <div className="flex flex-wrap gap-4 flex-1">
+                <div className="flex items-center gap-2">
+                  <Icon name="Layers" size={15} className="text-brand-orange shrink-0" />
                   <div>
-                    <p className="text-brand-muted text-xs mb-0.5">Материал</p>
+                    <p className="text-brand-muted text-xs">Материал</p>
                     <p className="text-brand-dark text-sm font-semibold">{selected.mat}</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
-                    <Icon name="Maximize2" size={15} className="text-brand-orange" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Icon name="Maximize2" size={15} className="text-brand-orange shrink-0" />
                   <div>
-                    <p className="text-brand-muted text-xs mb-0.5">Размер</p>
+                    <p className="text-brand-muted text-xs">Размер</p>
                     <p className="text-brand-dark text-sm font-semibold">{selected.size}</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
-                    <Icon name="Tag" size={15} className="text-brand-orange" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Icon name="Tag" size={15} className="text-brand-orange shrink-0" />
                   <div>
-                    <p className="text-brand-muted text-xs mb-0.5">Стоимость</p>
-                    <p className="text-brand-dark text-sm font-bold text-brand-orange">{selected.price}</p>
+                    <p className="text-brand-muted text-xs">Стоимость</p>
+                    <p className="text-brand-dark text-sm font-bold" style={{ color: "#FF6B2B" }}>{selected.price}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-auto space-y-2">
+              <div className="flex gap-2 shrink-0">
                 <a
                   href="#contacts"
                   onClick={() => setSelected(null)}
-                  className="w-full bg-brand-orange text-white font-semibold py-3 rounded-xl hover:bg-orange-600 transition-colors text-sm text-center block"
+                  className="bg-brand-orange text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-orange-600 transition-colors text-sm whitespace-nowrap"
                 >
-                  Хочу такой же — оставить заявку
+                  Хочу такой же
                 </a>
                 <button
                   onClick={() => setSelected(null)}
-                  className="w-full bg-brand-gray text-brand-muted font-medium py-3 rounded-xl hover:bg-brand-mid transition-colors text-sm"
+                  className="bg-brand-gray text-brand-muted font-medium px-4 py-2.5 rounded-xl hover:bg-brand-mid transition-colors text-sm"
                 >
                   Закрыть
                 </button>
