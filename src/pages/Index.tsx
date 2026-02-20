@@ -110,14 +110,24 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
+type Work = typeof WORKS[number];
+
 export default function Index() {
   const [filter, setFilter]       = useState("all");
   const [faqOpen, setFaqOpen]     = useState<number | null>(null);
   const [menuOpen, setMenuOpen]   = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm]           = useState({ name: "", phone: "", comment: "" });
+  const [selected, setSelected]   = useState<Work | null>(null);
 
   const filtered = filter === "all" ? WORKS : WORKS.filter(w => w.cat === filter);
+
+  // Закрытие по Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setSelected(null); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-brand-dark font-montserrat">
@@ -234,11 +244,20 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((w, i) => (
               <Reveal key={w.id} delay={i * 80}>
-                <div className="group bg-white rounded-2xl overflow-hidden border border-brand-mid hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div
+                  onClick={() => setSelected(w)}
+                  className="group bg-white rounded-2xl overflow-hidden border border-brand-mid hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                >
                   <div className="relative h-56 overflow-hidden">
                     <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute top-3 right-3 bg-brand-dark/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
                       {w.price}
+                    </div>
+                    <div className="absolute inset-0 bg-brand-dark/0 group-hover:bg-brand-dark/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 rounded-xl px-4 py-2 flex items-center gap-2 text-brand-dark text-sm font-semibold">
+                        <Icon name="ZoomIn" size={16} />
+                        Подробнее
+                      </div>
                     </div>
                   </div>
                   <div className="p-5">
@@ -249,9 +268,9 @@ export default function Index() {
                         <Icon name="Maximize2" size={12} />
                         <span>{w.size}</span>
                       </div>
-                      <a href="#contacts" className="text-brand-orange text-xs font-semibold hover:underline flex items-center gap-1">
-                        Хочу такой же <Icon name="ArrowRight" size={12} />
-                      </a>
+                      <span className="text-brand-orange text-xs font-semibold flex items-center gap-1">
+                        Смотреть <Icon name="ArrowRight" size={12} />
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -535,6 +554,84 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {/* MODAL */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col md:flex-row shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Фото */}
+            <div className="md:w-[55%] h-64 md:h-auto relative shrink-0">
+              <img src={selected.img} alt={selected.title} className="w-full h-full object-cover" />
+              <button
+                onClick={() => setSelected(null)}
+                className="absolute top-3 right-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+              >
+                <Icon name="X" size={16} className="text-brand-dark" />
+              </button>
+            </div>
+
+            {/* Данные */}
+            <div className="flex flex-col p-7 md:w-[45%] overflow-y-auto">
+              <p className="text-brand-orange text-xs font-bold tracking-widest uppercase mb-2">
+                {FILTERS[selected.cat] ?? "Наши работы"}
+              </p>
+              <h2 className="text-2xl font-bold text-brand-dark mb-5 leading-tight">{selected.title}</h2>
+
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
+                    <Icon name="Layers" size={15} className="text-brand-orange" />
+                  </div>
+                  <div>
+                    <p className="text-brand-muted text-xs mb-0.5">Материал</p>
+                    <p className="text-brand-dark text-sm font-semibold">{selected.mat}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
+                    <Icon name="Maximize2" size={15} className="text-brand-orange" />
+                  </div>
+                  <div>
+                    <p className="text-brand-muted text-xs mb-0.5">Размер</p>
+                    <p className="text-brand-dark text-sm font-semibold">{selected.size}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-brand-gray flex items-center justify-center shrink-0">
+                    <Icon name="Tag" size={15} className="text-brand-orange" />
+                  </div>
+                  <div>
+                    <p className="text-brand-muted text-xs mb-0.5">Стоимость</p>
+                    <p className="text-brand-dark text-sm font-bold text-brand-orange">{selected.price}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-auto space-y-2">
+                <a
+                  href="#contacts"
+                  onClick={() => setSelected(null)}
+                  className="w-full bg-brand-orange text-white font-semibold py-3 rounded-xl hover:bg-orange-600 transition-colors text-sm text-center block"
+                >
+                  Хочу такой же — оставить заявку
+                </a>
+                <button
+                  onClick={() => setSelected(null)}
+                  className="w-full bg-brand-gray text-brand-muted font-medium py-3 rounded-xl hover:bg-brand-mid transition-colors text-sm"
+                >
+                  Закрыть
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* FLOATING CTA */}
       <a href="#contacts"
