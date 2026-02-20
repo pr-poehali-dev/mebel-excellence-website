@@ -16,29 +16,34 @@ const NAV = [
 ];
 
 const WORKS = [
-  { id: 1,  cat: "kupe",      title: "Шкаф-купе «Линия»",       mat: "Стекло + алюминий",    size: "2.4 × 2.3 м",  price: "от 70 000 ₽",  img: IMG_HERO },
-  { id: 2,  cat: "kupe",      title: "Шкаф-купе с зеркалами",   mat: "Зеркало + ЛДСП",       size: "3.0 × 2.4 м",  price: "от 85 000 ₽",  img: IMG_CLOSET },
-  { id: 3,  cat: "raspashnye",title: "Распашной шкаф «Классик»",mat: "МДФ эмаль белая",      size: "2.0 × 2.2 м",  price: "от 55 000 ₽",  img: IMG_TV },
-  { id: 4,  cat: "raspashnye",title: "Шкаф в спальню",          mat: "ЛДСП + фасад МДФ",     size: "1.8 × 2.4 м",  price: "от 48 000 ₽",  img: IMG_KITCHEN },
-  { id: 5,  cat: "garderobnie", title: "Walk-in гардеробная",    mat: "ЛДСП кашемир + хром",  size: "Индивидуально", price: "от 85 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/9bedebaf-3ceb-4be1-8947-8e61dbf61c28.jpeg" },
-  { id: 6,  cat: "garderobnie", title: "Гардеробная с купе",    mat: "ЛДСП кашемир + чёрный профиль", size: "3.0 × 2.4 м", price: "от 110 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/ff200e90-f7ad-4c92-8a41-96782b333836.jpeg" },
-  { id: 7,  cat: "rabochie",  title: "Рабочая зона с навесным шкафом", mat: "МДФ серый + металл",      size: "Индивидуально", price: "от 55 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/be2276ed-2e08-428a-a90c-4cfd8c2b83e6.jpg" },
-  { id: 8,  cat: "rabochie",  title: "Кабинет с системой хранения",   mat: "МДФ синий + дуб натуральный", size: "Индивидуально", price: "от 120 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/29dd10ca-0cf1-46ca-82df-3bbc8dc9a517.jpg" },
-  { id: 11, cat: "rabochie",  title: "Детская рабочая зона",          mat: "МДФ белый + фрезеровка",     size: "Индивидуально", price: "от 85 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/022fd098-e372-40d8-a605-90fd838b3c07.jpg" },
-  { id: 12, cat: "rabochie",  title: "Рабочая зона со шкафом",        mat: "ЛДСП серый + дуб",           size: "Индивидуально", price: "от 75 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/14437af4-a5c4-4f86-9498-3ad78892749e.jpg" },
-  { id: 13, cat: "rabochie",  title: "Домашний кабинет у окна",       mat: "ЛДСП белый + дуб натуральный",size: "Индивидуально", price: "от 95 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/66d56d1b-1d12-4647-8e46-fefe86d3fd09.jpg" },
-  { id: 14, cat: "rabochie",  title: "Рабочая зона со шкафом у окна", mat: "МДФ кашемир + дуб + золотая фурнитура", size: "Индивидуально", price: "от 70 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/2584937d-213d-43c4-942d-513f8e04303f.jpg" },
-  { id: 15, cat: "rabochie",  title: "Угловая рабочая зона",          mat: "ЛДСП кашемир + чёрные ручки",         size: "Индивидуально", price: "от 65 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/16fee486-7c1f-40f1-8608-8cd04bf0143d.jpg" },
-  { id: 16, cat: "rabochie",  title: "Детская рабочая зона у окна",   mat: "МДФ белый + дуб + белые ручки",       size: "Индивидуально", price: "от 80 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/a7ad65ad-4607-4d3a-9b09-c8bc3165f9a6.jpg" },
-  { id: 17, cat: "rabochie",  title: "Рабочая зона в синем стиле",    mat: "МДФ синий матовый + дуб натуральный", size: "Индивидуально", price: "от 90 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d90209ae-d992-4f48-9364-816e998791ab.JPG" },
-  { id: 18, cat: "rabochie",  title: "Стол у окна со шкафом",         mat: "МДФ серый + дуб + чёрные ручки",       size: "Индивидуально", price: "от 75 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/3205bf7e-d661-48c2-a774-9a7b35f85bd8.JPG" },
-  { id: 19, cat: "rabochie",  title: "Угловой стол с надстройкой",    mat: "ЛДСП дуб + МДФ серый + золото",        size: "Индивидуально", price: "от 80 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e144b2f2-a35a-43bb-9a9b-bf4030fe76c3.JPG" },
-  { id: 20, cat: "rabochie",  title: "Рабочая зона с полками у окна", mat: "МДФ белый + ЛДСП дуб",                 size: "Индивидуально", price: "от 70 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e39afc74-4248-47ef-afef-446d0de4795c.jpg" },
-  { id: 21, cat: "rabochie",  title: "Детская зона с системой хранения", mat: "МДФ зелёный + ЛДСП дуб",            size: "Индивидуально", price: "от 90 000 ₽",  img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e58ffddd-3ae5-46d6-8804-b42678a8e5e5.jpg" },
-  { id: 22, cat: "rabochie",  title: "Комната с рабочей зоной и шкафами", mat: "МДФ бирюза + белый + ЛДСП дуб",   size: "Индивидуально", price: "от 130 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/466a08a8-7c5d-4abc-9583-bfad11365db0.jpg" },
-  { id: 23, cat: "rabochie",  title: "Детская рабочая зона с подиумом", mat: "МДФ белый + розовый + золото",       size: "Индивидуально", price: "от 115 000 ₽", img: "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d292966f-99be-4993-a94d-e8030d910252.jpeg" },
-  { id: 9,  cat: "prikhojie", title: "Прихожая с нишами",       mat: "МДФ эмаль + зеркало",  size: "2.2 × 2.4 м",  price: "от 60 000 ₽",  img: IMG_CLOSET },
-  { id: 10, cat: "prikhojie", title: "Прихожая «Модерн»",       mat: "ЛДСП + алюминий",      size: "1.8 × 2.3 м",  price: "от 45 000 ₽",  img: IMG_TV },
+  { id: 1,  cat: "kupe",       title: "Шкаф-купе «Линия»",              mat: "Стекло + алюминий",                    size: "2.4 × 2.3 м",   price: "от 70 000 ₽",  imgs: [IMG_HERO] },
+  { id: 2,  cat: "kupe",       title: "Шкаф-купе с зеркалами",          mat: "Зеркало + ЛДСП",                       size: "3.0 × 2.4 м",   price: "от 85 000 ₽",  imgs: [IMG_CLOSET] },
+  { id: 3,  cat: "raspashnye", title: "Распашной шкаф «Классик»",       mat: "МДФ эмаль белая",                      size: "2.0 × 2.2 м",   price: "от 55 000 ₽",  imgs: [IMG_TV] },
+  { id: 4,  cat: "raspashnye", title: "Шкаф в спальню",                 mat: "ЛДСП + фасад МДФ",                     size: "1.8 × 2.4 м",   price: "от 48 000 ₽",  imgs: [IMG_KITCHEN] },
+  { id: 5,  cat: "garderobnie",title: "Walk-in гардеробная",             mat: "ЛДСП кашемир + хром",                  size: "Индивидуально",  price: "от 85 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/9bedebaf-3ceb-4be1-8947-8e61dbf61c28.jpeg"] },
+  { id: 6,  cat: "garderobnie",title: "Гардеробная с купе",              mat: "ЛДСП кашемир + чёрный профиль",        size: "3.0 × 2.4 м",   price: "от 110 000 ₽", imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/ff200e90-f7ad-4c92-8a41-96782b333836.jpeg"] },
+  { id: 7,  cat: "rabochie",   title: "Рабочая зона с навесным шкафом", mat: "МДФ серый + металл",                   size: "Индивидуально",  price: "от 55 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/be2276ed-2e08-428a-a90c-4cfd8c2b83e6.jpg"] },
+  { id: 8,  cat: "rabochie",   title: "Кабинет с системой хранения",    mat: "МДФ синий + дуб натуральный",          size: "Индивидуально",  price: "от 120 000 ₽", imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/29dd10ca-0cf1-46ca-82df-3bbc8dc9a517.jpg"] },
+  { id: 11, cat: "rabochie",   title: "Детская рабочая зона",           mat: "МДФ белый + фрезеровка",               size: "Индивидуально",  price: "от 85 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/022fd098-e372-40d8-a605-90fd838b3c07.jpg"] },
+  { id: 12, cat: "rabochie",   title: "Рабочая зона со шкафом",         mat: "ЛДСП серый + дуб",                     size: "Индивидуально",  price: "от 75 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/14437af4-a5c4-4f86-9498-3ad78892749e.jpg"] },
+  { id: 13, cat: "rabochie",   title: "Домашний кабинет у окна",        mat: "ЛДСП белый + дуб натуральный",         size: "Индивидуально",  price: "от 95 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/66d56d1b-1d12-4647-8e46-fefe86d3fd09.jpg"] },
+  { id: 14, cat: "rabochie",   title: "Рабочая зона со шкафом у окна", mat: "МДФ кашемир + дуб + золотая фурнитура",size: "Индивидуально",  price: "от 70 000 ₽",  imgs: [
+    "https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/2584937d-213d-43c4-942d-513f8e04303f.jpg",
+    "https://cdn.poehali.dev/files/c42240a0-d85e-4dd6-af35-6de214533a9b.jpg",
+    "https://cdn.poehali.dev/files/dc39eab8-6001-44e3-90f1-28c585ab1b52.jpg",
+    "https://cdn.poehali.dev/files/f3d28eba-a3e6-46fa-85ee-84c4feb9baa3.jpg",
+  ]},
+  { id: 15, cat: "rabochie",   title: "Угловая рабочая зона",           mat: "ЛДСП кашемир + чёрные ручки",          size: "Индивидуально",  price: "от 65 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/16fee486-7c1f-40f1-8608-8cd04bf0143d.jpg"] },
+  { id: 16, cat: "rabochie",   title: "Детская рабочая зона у окна",    mat: "МДФ белый + дуб + белые ручки",        size: "Индивидуально",  price: "от 80 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/a7ad65ad-4607-4d3a-9b09-c8bc3165f9a6.jpg"] },
+  { id: 17, cat: "rabochie",   title: "Рабочая зона в синем стиле",     mat: "МДФ синий матовый + дуб натуральный",  size: "Индивидуально",  price: "от 90 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d90209ae-d992-4f48-9364-816e998791ab.JPG"] },
+  { id: 18, cat: "rabochie",   title: "Стол у окна со шкафом",          mat: "МДФ серый + дуб + чёрные ручки",       size: "Индивидуально",  price: "от 75 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/3205bf7e-d661-48c2-a774-9a7b35f85bd8.JPG"] },
+  { id: 19, cat: "rabochie",   title: "Угловой стол с надстройкой",     mat: "ЛДСП дуб + МДФ серый + золото",        size: "Индивидуально",  price: "от 80 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e144b2f2-a35a-43bb-9a9b-bf4030fe76c3.JPG"] },
+  { id: 20, cat: "rabochie",   title: "Рабочая зона с полками у окна",  mat: "МДФ белый + ЛДСП дуб",                 size: "Индивидуально",  price: "от 70 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e39afc74-4248-47ef-afef-446d0de4795c.jpg"] },
+  { id: 21, cat: "rabochie",   title: "Детская зона с системой хранения",mat: "МДФ зелёный + ЛДСП дуб",              size: "Индивидуально",  price: "от 90 000 ₽",  imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/e58ffddd-3ae5-46d6-8804-b42678a8e5e5.jpg"] },
+  { id: 22, cat: "rabochie",   title: "Комната с рабочей зоной и шкафами",mat: "МДФ бирюза + белый + ЛДСП дуб",     size: "Индивидуально",  price: "от 130 000 ₽", imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/466a08a8-7c5d-4abc-9583-bfad11365db0.jpg"] },
+  { id: 23, cat: "rabochie",   title: "Детская рабочая зона с подиумом",mat: "МДФ белый + розовый + золото",         size: "Индивидуально",  price: "от 115 000 ₽", imgs: ["https://cdn.poehali.dev/projects/536856ce-13a3-4036-a8fd-fc9c3d456cbd/bucket/d292966f-99be-4993-a94d-e8030d910252.jpeg"] },
+  { id: 9,  cat: "prikhojie",  title: "Прихожая с нишами",              mat: "МДФ эмаль + зеркало",                  size: "2.2 × 2.4 м",   price: "от 60 000 ₽",  imgs: [IMG_CLOSET] },
+  { id: 10, cat: "prikhojie",  title: "Прихожая «Модерн»",              mat: "ЛДСП + алюминий",                      size: "1.8 × 2.3 м",   price: "от 45 000 ₽",  imgs: [IMG_TV] },
 ];
 
 const FILTERS: Record<string, string> = {
@@ -119,15 +124,22 @@ export default function Index() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm]           = useState({ name: "", phone: "", comment: "" });
   const [selected, setSelected]   = useState<Work | null>(null);
+  const [photoIdx, setPhotoIdx]   = useState(0);
 
   const filtered = filter === "all" ? WORKS : WORKS.filter(w => w.cat === filter);
 
-  // Закрытие по Escape
+  const openWork = (w: Work) => { setSelected(w); setPhotoIdx(0); };
+
+  // Закрытие по Escape, листание стрелками
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setSelected(null); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelected(null);
+      if (e.key === "ArrowRight" && selected) setPhotoIdx(i => Math.min(i + 1, selected.imgs.length - 1));
+      if (e.key === "ArrowLeft"  && selected) setPhotoIdx(i => Math.max(i - 1, 0));
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [selected]);
 
   return (
     <div className="min-h-screen bg-white text-brand-dark font-montserrat">
@@ -245,11 +257,16 @@ export default function Index() {
             {filtered.map((w, i) => (
               <Reveal key={w.id} delay={i * 80}>
                 <div
-                  onClick={() => setSelected(w)}
+                  onClick={() => openWork(w)}
                   className="group bg-white rounded-2xl overflow-hidden border border-brand-mid hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
                 >
                   <div className="relative h-56 overflow-hidden">
-                    <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={w.imgs[0]} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {w.imgs.length > 1 && (
+                      <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                        {w.imgs.length} фото
+                      </div>
+                    )}
                     <div className="absolute top-3 right-3 bg-brand-dark/90 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
                       {w.price}
                     </div>
@@ -568,17 +585,46 @@ export default function Index() {
             {/* Фото */}
             <div className="relative bg-brand-gray flex items-center justify-center" style={{ maxHeight: "60vh" }}>
               <img
-                src={selected.img}
+                key={photoIdx}
+                src={selected.imgs[photoIdx]}
                 alt={selected.title}
                 className="w-full h-full object-contain"
                 style={{ maxHeight: "60vh" }}
               />
+              {/* Закрыть */}
               <button
                 onClick={() => setSelected(null)}
-                className="absolute top-3 right-3 w-9 h-9 bg-white/95 rounded-full flex items-center justify-center hover:bg-white shadow-md transition-colors"
+                className="absolute top-3 right-3 w-9 h-9 bg-white/95 rounded-full flex items-center justify-center hover:bg-white shadow-md transition-colors z-10"
               >
                 <Icon name="X" size={17} className="text-brand-dark" />
               </button>
+              {/* Стрелки */}
+              {selected.imgs.length > 1 && (
+                <>
+                  <button
+                    onClick={e => { e.stopPropagation(); setPhotoIdx(i => Math.max(i - 1, 0)); }}
+                    className={`absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow hover:bg-white transition-all ${photoIdx === 0 ? "opacity-30 cursor-default" : ""}`}
+                  >
+                    <Icon name="ChevronLeft" size={18} className="text-brand-dark" />
+                  </button>
+                  <button
+                    onClick={e => { e.stopPropagation(); setPhotoIdx(i => Math.min(i + 1, selected.imgs.length - 1)); }}
+                    className={`absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow hover:bg-white transition-all ${photoIdx === selected.imgs.length - 1 ? "opacity-30 cursor-default" : ""}`}
+                  >
+                    <Icon name="ChevronRight" size={18} className="text-brand-dark" />
+                  </button>
+                  {/* Точки */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {selected.imgs.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={e => { e.stopPropagation(); setPhotoIdx(idx); }}
+                        className={`w-2 h-2 rounded-full transition-all ${idx === photoIdx ? "bg-brand-orange w-4" : "bg-white/70"}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Данные */}
