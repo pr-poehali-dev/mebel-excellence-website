@@ -125,10 +125,14 @@ export default function Index() {
   const [form, setForm]           = useState({ name: "", phone: "", comment: "" });
   const [selected, setSelected]   = useState<Work | null>(null);
   const [photoIdx, setPhotoIdx]   = useState(0);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   const filtered = filter === "all" ? WORKS : WORKS.filter(w => w.cat === filter);
+  const visible  = filter === "all" ? filtered.slice(0, visibleCount) : filtered;
+  const hasMore  = filter === "all" && visibleCount < filtered.length;
 
   const openWork = (w: Work) => { setSelected(w); setPhotoIdx(0); };
+  const changeFilter = (f: string) => { setFilter(f); setVisibleCount(9); };
 
   // Закрытие по Escape, листание стрелками
   useEffect(() => {
@@ -243,7 +247,7 @@ export default function Index() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {Object.entries(FILTERS).map(([k, v]) => (
-                  <button key={k} onClick={() => setFilter(k)}
+                  <button key={k} onClick={() => changeFilter(k)}
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${filter === k
                       ? "bg-brand-dark text-white"
                       : "bg-white text-brand-muted hover:text-brand-dark border border-brand-mid"}`}>
@@ -254,7 +258,7 @@ export default function Index() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map((w, i) => (
+            {visible.map((w, i) => (
               <Reveal key={w.id} delay={i * 80}>
                 <div
                   onClick={() => openWork(w)}
@@ -294,6 +298,18 @@ export default function Index() {
               </Reveal>
             ))}
           </div>
+
+          {hasMore && (
+            <div className="text-center mt-10">
+              <button
+                onClick={() => setVisibleCount(c => c + 9)}
+                className="inline-flex items-center gap-2 bg-white border border-brand-mid text-brand-dark font-semibold px-8 py-3.5 rounded-xl hover:border-brand-orange hover:text-brand-orange transition-all duration-200"
+              >
+                <Icon name="Grid" size={16} />
+                Показать ещё ({filtered.length - visibleCount})
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
